@@ -35,9 +35,8 @@ const getAllExams = async (req, res) => {
     try {
         const currentDate = new Date();
         const exams = await ExamModel.find({ 
-            isActive: true,
-            startDate: { $lte: currentDate }
-        }).select('-questions.correctAnswer');
+            isActive: true
+        }).select('-questions.correctAnswer').sort({ startDate: 1 });
         
         res.status(200).json({ success: true, exams });
     } catch (err) {

@@ -158,15 +158,20 @@ function StudentDashboard() {
                   return !submission || submission.status !== 'completed';
                 }).map(exam => {
                   const submission = getExamStatus(exam._id);
+                  const isUpcoming = new Date(exam.startDate) > new Date();
                   return (
                     <div key={exam._id} className="exam-card">
                       <div className="exam-header">
                         <h3>{exam.title}</h3>
-                        {submission && (
+                        {isUpcoming ? (
+                          <span className="status-badge pending" style={{background: '#fef3c7', color: '#d97706'}}>
+                            Upcoming
+                          </span>
+                        ) : submission ? (
                           <span className={`status-badge ${submission.status}`}>
                             Resume
                           </span>
-                        )}
+                        ) : null}
                       </div>
                       <div className="exam-details">
                         <div className="detail-item">
@@ -193,8 +198,12 @@ function StudentDashboard() {
                       <button 
                         onClick={() => handleStartExam(exam._id)} 
                         className="start-exam-btn"
+                        disabled={isUpcoming}
+                        style={isUpcoming ? { opacity: 0.6, cursor: 'not-allowed', background: '#ccc' } : {}}
                       >
-                        {submission && (submission.status === 'in-progress' || submission.status === 'interrupted')
+                        {isUpcoming ? (
+                           <><i className="ri-calendar-line"></i> Starts soon</>
+                        ) : submission && (submission.status === 'in-progress' || submission.status === 'interrupted')
                           ? <><i className="ri-play-circle-line"></i> Resume Exam</>
                           : <><i className="ri-play-circle-line"></i> Start Exam</>
                         }
