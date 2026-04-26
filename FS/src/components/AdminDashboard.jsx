@@ -359,6 +359,8 @@ function CreateExamForm({ onExamCreated }) {
         },
         body: JSON.stringify({
           ...formData,
+          startDate: new Date(formData.startDate).toISOString(),
+          endDate: new Date(formData.endDate).toISOString(),
           questions,
           totalMarks
         })
