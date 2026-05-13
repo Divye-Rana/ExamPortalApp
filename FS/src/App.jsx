@@ -17,7 +17,6 @@ function App() {
 
   return (
     <>
-      //--- App part
       <RefreshHandler setIsAuthenticated={setIsAuthenticated}/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
